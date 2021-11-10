@@ -8,18 +8,21 @@ const multer = require('multer');
 const app = express();
 
 
-
-
-
-
 // SETTINGS
 app.set('port', process.env.PORT || 9100);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
 
+const storage = multer.diskStorage({
+      destination: path.join(__dirname, 'public/images'),
+      filename: (req, file, cb) => {
+            cb(null, file.originalname);
+      }
+});
 
 // MIDDLEWARES
 app.use(multer({
+      storage,
       dest: path.join(__dirname, 'public/images')
 }).single('image'));
 
